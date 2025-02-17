@@ -1,0 +1,31 @@
+{
+
+    "default_user" : "guest",
+
+    "users": [
+        {
+            "username": "root",
+            "email": "root@example.com",
+            "password": "rootpass",
+            "role": "root"
+        },
+        {
+            "username": "admin",
+            "email": "admin@example.com",
+            "password": "adminpass",
+            "role": "admin"
+        },
+        {
+            "username": "editor",
+            "email": "editor@example.com",
+            "password": "editorpass",
+            "role": "editor"
+        },
+        {
+            "username": "guest",
+            "email": "guest@example.com",
+            "password": "guestpass",
+            "role": "guest"
+        }
+    ]
+}
