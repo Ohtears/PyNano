@@ -69,10 +69,21 @@ class User():
     def login(self, username, password):
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
         for user in self.users:
-            if user['username'] == username and user['password'] == hashed_password:
-                self.__init__(user['username'], user['email'], user['password'], user['role'])
-                return True
+            if user['username'] == username:
+                if user['password'] == hashed_password or password == user['password']:
+                    self.__init__(user['username'], user['email'], user['password'], user['role'])
+                    return True
         return False
+
+    def reset_password(self, username, password):
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        for user in self.users:
+            if user['username'] == username:
+                user['password'] = hashed_password
+                self.save_users()
+                print(f"Password for user {username} reset successfully.")
+                return
+
 
     #Magic Methods
 
