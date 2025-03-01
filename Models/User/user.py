@@ -2,7 +2,18 @@ import json
 import os
 import hashlib
 
+from Core.Errors.exceptions import *
+
 class User():
+
+    #Constructor
+
+    def __init__(self, username, email, password, role):
+        self.username = username
+        self.email = email
+        self.password__ = password
+        self.role = role.lower()
+        self.permissions = self.DEFAULT_ROLES.get(self.role, set())
 
     #Class Variables
 
@@ -38,14 +49,6 @@ class User():
         else:
             print(f"Role {new_role} does not exist.")
 
-    #Constructor
-
-    def __init__(self, username, email, password, role):
-        self.username = username
-        self.email = email
-        self.password__ = password
-        self.role = role.lower()
-        self.permissions = self.DEFAULT_ROLES.get(self.role, set())
 
     #Methods
 
@@ -62,9 +65,8 @@ class User():
             }
             self.users.append(new_user)
             self.save_users()
-            print(f"User {username} registered successfully.")
-        else:
-            print(f"User {username} already exists.")
+            return
+        raise UserAlreadyExistsError
 
     def login(self, username, password):
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
@@ -72,16 +74,16 @@ class User():
             if user['username'] == username:
                 if user['password'] == hashed_password or password == user['password']:
                     self.__init__(user['username'], user['email'], user['password'], user['role'])
-                    return True
-        return False
+                    return 
+                raise IncorrectPasswordError
+        raise UserNotFoundError
 
-    def reset_password(self, username, password):
+    def reset_password(self, password):
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
         for user in self.users:
-            if user['username'] == username:
+            if user['username'] == self.username:
                 user['password'] = hashed_password
                 self.save_users()
-                print(f"Password for user {username} reset successfully.")
                 return
 
 
