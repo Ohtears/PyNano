@@ -18,12 +18,6 @@ class SessionManager:
         self.current_user = None
         self.command = None
 
-    @property
-    def current_user(self) -> User:
-        if self.current_user is None:
-            raise ValueError('No user is logged in')
-        return self.current_user
-
     #Methods
 
     def run(self):
@@ -35,17 +29,16 @@ class SessionManager:
     
     def show_main_menu(self):
         print(self.intro_text)
-        command = input(">>").strip().lower()
+        self.command = input(">> ").strip().lower()
 
-        match command:
-            case "login":
-                self.login()
-            case "register":
-                self.register()
-            case "exit":
-                print("Exiting PyNano. Goodbye!")
-            case _:
-                print("Unknown command. Please try again.")
+        if self.command.startswith('login'):
+            self.login()
+        elif self.command == 'register':
+            self.register()
+        elif self.command == 'exit':
+            print("Exiting PyNano. Goodbye!")
+        else:
+            print("Unknown command. Please try again.")
 
     def show_dashboard(self):
         pass
