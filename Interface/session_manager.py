@@ -1,7 +1,8 @@
 from Models.User.user import User 
 from Core.Errors.exceptions import *
+from Interface.ui import UserInterface
 
-class SessionManager:
+class SessionManager(UserInterface):
     
     intro_text = """ 
 
@@ -15,6 +16,7 @@ class SessionManager:
     #Constructor
 
     def __init__(self):
+        super.__init__()
         self.current_user = None
         self.command = None
 
