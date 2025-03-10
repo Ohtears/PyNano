@@ -1,5 +1,5 @@
 from Models.User import user
-from Interface.SessionManager import SessionManager
+from Interface.session_manager import SessionManager
 
 def main():
 

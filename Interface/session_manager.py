@@ -1,22 +1,37 @@
 from Models.User.user import User 
 from Core.Errors.exceptions import *
-from Interface.ui import UserInterface
+from Core.registry import CommandRegistry
 
-class SessionManager(UserInterface):
+class SessionManager:
     
     intro_text = """ 
 
     Hello welcome to PyNano, a simple command-based text-editor. Please Login or Register to continue.
     You can use the following commands:
-    Login 'USER'
-    Register
-    Exit
+    login 'USER'
+    register
+    exit
 
     """
+
+    dashboard_text = """
+
+    Welcome to PyNano, a simple command-based text-editor. You can use the following commands:
+    cd 'DIRECTORY'
+    pwd
+    ls 
+    create 'FILE'
+    nano 'FILE'
+    del 'FILE'
+    logout
+    change password
+    exit
+
+    """
+
     #Constructor
 
     def __init__(self):
-        super.__init__()
         self.current_user = None
         self.command = None
 
@@ -38,12 +53,33 @@ class SessionManager(UserInterface):
         elif self.command == 'register':
             self.register()
         elif self.command == 'exit':
-            print("Exiting PyNano. Goodbye!")
+            print("Exiting PyNano...")
+            exit()
         else:
             print("Unknown command. Please try again.")
 
     def show_dashboard(self):
-        pass
+        print(self.dashboard_text)
+        self.command = input(">> ").strip().lower()
+
+        cmd = self.command.split(" ")[0]
+        args = self.command.split(" ")[1:]
+
+        if cmd == 'logout':
+            self.logout()
+        elif cmd == 'change password' and args[0] == 'password':
+            self.change_password()
+        elif cmd == 'exit':
+            print('Exiting PyNano...')
+            exit() 
+        
+        else:
+            command = CommandRegistry.get(cmd)
+            if command:
+                command.execute(self, *args)
+            else:
+                print("Unknown command. Please try again.")
+
 
     def register(self):
         username = input("Enter username: ")
