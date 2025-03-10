@@ -100,6 +100,8 @@ class SessionManager:
             current_user.login(username, password)
             print(f"Welcome back, {username}!")
             print(current_user)
+            self.current_user = current_user
+
         except IncorrectPasswordError:
             print("Incorrect password. Please try again.")
         except UserNotFoundError:
