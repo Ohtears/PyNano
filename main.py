@@ -1,4 +1,3 @@
-from Models.User import user
 from Interface.session_manager import SessionManager
 from Core.registry import CommandRegistry
 from Commands.dir_commands import CDCommand, LSCommand, PWDCommand, CreateCommand, DelCommand

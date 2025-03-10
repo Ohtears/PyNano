@@ -1,5 +1,4 @@
 from Commands.base import BaseCommand
-from Models.User.user import User
 from Models.User.user_permissions import has_permission
 
 class NanoCommand(BaseCommand):

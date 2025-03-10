@@ -1,4 +1,4 @@
-from user import User
+from Models.User.user import User
 from functools import wraps
 
 def has_permission(required_permission):
