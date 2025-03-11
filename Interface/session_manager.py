@@ -2,6 +2,8 @@ from Models.User.user import User
 from Core.Errors.exceptions import *
 from Core.registry import CommandRegistry
 
+import os
+
 class SessionManager:
     
     intro_text = """ 
@@ -34,7 +36,6 @@ class SessionManager:
     def __init__(self):
         self.current_user = None
         self.command = None
-
     #Methods
 
     def run(self):
@@ -59,7 +60,6 @@ class SessionManager:
             print("Unknown command. Please try again.")
 
     def show_dashboard(self):
-        print(self.dashboard_text)
         self.command = input(">> ").strip().lower()
 
         cmd = self.command.split(" ")[0]
@@ -99,9 +99,8 @@ class SessionManager:
         try:
             current_user.login(username, password)
             print(f"Welcome back, {username}!")
-            print(current_user)
+            print(self.dashboard_text)
             self.current_user = current_user
-
         except IncorrectPasswordError:
             print("Incorrect password. Please try again.")
         except UserNotFoundError:

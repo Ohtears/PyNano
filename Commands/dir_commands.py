@@ -1,4 +1,9 @@
 from Commands.base import BaseCommand
+import os
+
+BLUE = '\033[94m'  # Bright blue
+WHITE = '\033[97m' # Bright white
+RESET = '\033[0m'  # Reset color
 
 class CDCommand(BaseCommand):
     def execute(self, session, *args):
@@ -11,12 +16,16 @@ class CDCommand(BaseCommand):
 class LSCommand(BaseCommand):
     def execute(self, session, *args):
         print('These files exist in this directory')
+        for item in sorted(os.listdir()):
+            if os.path.isdir(item):
+                print(f"{BLUE}{item}{RESET}")
+            else:
+                print(f"{WHITE}{item}{RESET}")
 
 class PWDCommand(BaseCommand):
     def execute(self, session, *args):
-        print('Current directory is: ')
-        # PWD LOGIC here
-
+        print('Current directory is:', os.getcwd())
+        
 class CreateCommand(BaseCommand):
     def execute(self, session, *args):
         if not args:

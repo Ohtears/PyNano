@@ -28,7 +28,7 @@ class User():
 
     @classmethod
     def load_users(cls):
-        file_path = os.path.join(os.path.dirname(__file__), '../user.json')
+        file_path = os.path.join(os.path.dirname(__file__), 'user.json')
         with open(file_path, 'r') as file:
             data = json.load(file)
             cls.users = data['users']
@@ -36,7 +36,7 @@ class User():
 
     @classmethod
     def save_users(cls):
-        file_path = os.path.join(os.path.dirname(__file__), '../user.json')
+        file_path = os.path.join(os.path.dirname(__file__), 'user.json')
         with open(file_path, 'w') as file:
             json.dump({"default_user": cls.default_role, "users": cls.users}, file, indent=4)
 
