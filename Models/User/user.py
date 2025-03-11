@@ -1,6 +1,6 @@
 import json
-import os
 import hashlib
+from pathlib import Path
 
 from Core.Errors.exceptions import *
 
@@ -28,16 +28,16 @@ class User():
 
     @classmethod
     def load_users(cls):
-        file_path = os.path.join(os.path.dirname(__file__), 'user.json')
-        with open(file_path, 'r') as file:
+        file_path = Path(__file__).parent / '../user.json'
+        with file_path.open('r') as file:
             data = json.load(file)
             cls.users = data['users']
             cls.default_role = data.get('default_user', 'guest')
 
     @classmethod
     def save_users(cls):
-        file_path = os.path.join(os.path.dirname(__file__), 'user.json')
-        with open(file_path, 'w') as file:
+        file_path = Path(__file__).parent / '../user.json'
+        with file_path.open('w') as file:
             json.dump({"default_user": cls.default_role, "users": cls.users}, file, indent=4)
 
     @classmethod

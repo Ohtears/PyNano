@@ -2,32 +2,32 @@ from Models.User.user import User
 from Core.Errors.exceptions import *
 from Core.registry import CommandRegistry
 
-import os
+from pathlib import Path
 
 class SessionManager:
     
     intro_text = """ 
 
-    Hello welcome to PyNano, a simple command-based text-editor. Please Login or Register to continue.
-    You can use the following commands:
-    login 'USER'
-    register
-    exit
+Hello welcome to PyNano, a simple command-based text-editor. Please Login or Register to continue.
+You can use the following commands:
+login 'USER'
+register
+exit
 
     """
 
     dashboard_text = """
 
-    Welcome to PyNano, a simple command-based text-editor. You can use the following commands:
-    cd 'DIRECTORY'
-    pwd
-    ls 
-    create 'FILE'
-    nano 'FILE'
-    del 'FILE'
-    logout
-    change password
-    exit
+Welcome to PyNano, a simple command-based text-editor. You can use the following commands:
+cd 'DIRECTORY'
+pwd
+ls 
+create 'FILE'
+nano 'FILE'
+del 'FILE'
+logout
+change password
+exit
 
     """
 
@@ -36,6 +36,8 @@ class SessionManager:
     def __init__(self):
         self.current_user = None
         self.command = None
+        self.current_dir = Path.cwd()
+        
     #Methods
 
     def run(self):

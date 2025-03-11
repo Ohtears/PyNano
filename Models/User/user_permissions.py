@@ -4,15 +4,18 @@ from functools import wraps
 def has_permission(required_permission):
     def decorator(func):
         @wraps(func)
-        def wrapper(user, *args, **kwargs):
-            if not isinstance(user, User):
-                raise ValueError("First argument must be a User object")
+        def wrapper(self, session, *args, **kwargs):
+            user = session.current_user
+            if not user:
+                print("⚠️ No user logged in.")
+                return
+
+            if not hasattr(user, "has_permission"):
+                raise ValueError("Session's current_user must implement `has_permission`")
 
             if user.has_permission(required_permission):
-                return func(user, *args, **kwargs)
+                return func(self, session, *args, **kwargs)
             else:
                 print(f"🚫 Access Denied: User '{user.username}' does not have '{required_permission}' permission.")
-                return None  
-
         return wrapper
     return decorator
