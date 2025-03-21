@@ -9,4 +9,3 @@ class NanoCommand(BaseCommand):
             print('Please provide a file to edit. Usage: nano <filename>')
         else:
             print(f'Opening file: {args[0]} in PyNano')
-  

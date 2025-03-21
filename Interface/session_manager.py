@@ -62,9 +62,9 @@ exit
             print("Unknown command. Please try again.")
 
     def show_dashboard(self):
-        self.command = input(">> ").strip().lower()
+        self.command = input(">> ").strip()
 
-        cmd = self.command.split(" ")[0]
+        cmd = self.command.split(" ")[0].lower()
         args = self.command.split(" ")[1:]
 
         if cmd == 'logout':
