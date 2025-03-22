@@ -7,23 +7,7 @@ class File(ABC):
         self.format = format
 
     @abstractmethod
-    def write(self):
-        pass
-
-    @abstractmethod
-    def read(self):
-        pass
-
-    @abstractmethod
-    def delete(self):
-        pass
-
-    @abstractmethod
     def open(self):
-        pass
-    
-    @abstractmethod
-    def close(self):
         pass
 
     @abstractmethod

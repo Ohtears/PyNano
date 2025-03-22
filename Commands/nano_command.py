@@ -1,5 +1,6 @@
 from Commands.base import BaseCommand
 from Models.User.user_permissions import has_permission
+from Interface.editor import Editor
 
 class NanoCommand(BaseCommand):
     
@@ -9,3 +10,5 @@ class NanoCommand(BaseCommand):
             print('Please provide a file to edit. Usage: nano <filename>')
         else:
             print(f'Opening file: {args[0]} in PyNano')
+            editor = Editor(session)
+            editor.open_file(args[0])
