@@ -21,7 +21,7 @@ class Editor(SessionManager):
 
     def open_file(self, filename: str):
         File_class = get_file_class_by_extension(filename)
-        self.current_file = File_class(filename)
+        self.current_file = File_class(filename, directory=self.session.current_dir)
         self.buffer.set_lines(self.current_file.open())
         curses.wrapper(self.run_edit_loop)
 

@@ -17,7 +17,7 @@ class CDCommand(BaseCommand):
         else:
             target_path = Path(session.current_dir) / args[0]
             if target_path.is_dir():
-                session.current_dir = str(target_path.resolve())
+                session.current_dir = target_path.resolve()
                 print(f"Moved to {session.current_dir}")
             else:
                 print("Directory does not exist.")
