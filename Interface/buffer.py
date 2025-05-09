@@ -1,9 +1,15 @@
 class TextBuffer:
     def __init__(self, lines=None):
-        self.lines = lines if lines is not None else []
+        if lines is None or len(lines) == 0:
+            self.lines = ['']
+        else:
+            self.lines = lines
 
     def insert(self, line, col, text):
         """Insert text at given line and column."""
+        while line >= len(self.lines):
+            self.lines.append('')
+        
         current_line = self.lines[line]
         new_line = current_line[:col] + text + current_line[col:]
         self.lines[line] = new_line
