@@ -11,4 +11,9 @@ class NanoCommand(BaseCommand):
         else:
             print(f'Opening file: {args[0]} in PyNano')
             editor = Editor(session)
-            editor.open_file(args[0])
+            try:
+                editor.open_file(args[0])
+            except ValueError:
+                print('Unsupported File Type')
+                print('Try Again!')
+                
