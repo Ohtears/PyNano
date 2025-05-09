@@ -1,11 +1,16 @@
 from Interface.session_manager import SessionManager
 from Interface.buffer import TextBuffer
 from Core import __version__
+from Core.history import HistoryManager
 from Models.File.file import File
 from Models.File.file_registry import load_all_file_types, get_file_class_by_extension
 
 import curses
+import signal
 import os
+import copy
+
+signal.signal(signal.SIGTSTP, lambda signum, frame: None)
 
 class Editor(SessionManager):
     
@@ -13,7 +18,7 @@ class Editor(SessionManager):
 
     def __init__(self, session: SessionManager):
         self.session = session
-        
+        self.history = HistoryManager()
         self.buffer = TextBuffer()
         self.current_file = None 
         self.cursor = (0, 0)
@@ -35,6 +40,7 @@ class Editor(SessionManager):
 
             max_y, max_x = stdscr.getmaxyx()
 
+            # stdscr.addstr(max_y - 2, 0, f"DEBUG: Cursor: {self.cursor} | Lines: {len(self.buffer.get_lines())}", curses.A_DIM)
             # *===== HEADER =====``
             header_text = f" PyNano Text Editor Version {__version__}".center(max_x, " ")
             stdscr.addstr(0, 0, header_text, curses.A_REVERSE)
@@ -46,7 +52,7 @@ class Editor(SessionManager):
                 stdscr.addstr(i + 1, 0, line.rstrip())
 
             # *===== FOOTER / HELP BAR =====
-            help_text = " Ctrl+O: Save | Ctrl+X: Exit | Ctrl+Z: Undo | Ctrl+Y: Redo | Ctrl+U: Paste "
+            help_text = " Ctrl+O: Save | Ctrl+X: Exit | Ctrl+U: Undo | Ctrl+R: Redo"
             stdscr.addstr(max_y - 1, 0, help_text[:max_x], curses.A_REVERSE)
 
             # Move cursor
@@ -64,14 +70,11 @@ class Editor(SessionManager):
             elif key == 15:  # Ctrl+O
                 self.save_file()
 
-            elif key == 26:  # Ctrl+Z
+            elif key == 21:  # Ctrl+U
                 self.undo()
 
-            elif key == 25:  # Ctrl+Y
+            elif key == 18:  # Ctrl+R
                 self.redo()
-
-            elif key == 21:  # Ctrl+U
-                self.paste()
 
             elif key == curses.KEY_UP:
                 self.move_cursor_up()
@@ -95,11 +98,13 @@ class Editor(SessionManager):
 
     
     def insert_text(self, char):
+        self.history.save_state(copy.deepcopy(self.buffer.get_lines()), self.cursor)
         line, col = self.cursor
         self.buffer.insert(line, col, char)
         self.move_cursor_right()
 
     def delete_char(self):
+        self.history.save_state(copy.deepcopy(self.buffer.get_lines()), self.cursor)
         line, col = self.cursor
         if col > 0:
             self.buffer.delete(line, col - 1)
@@ -137,8 +142,18 @@ class Editor(SessionManager):
     def paste():
         pass
 
-    def undo():
-        pass
+    def undo(self):
+        self.history.undo(self)
+        self._safe_cursor()
 
-    def redo():
-        pass
+    def redo(self):
+        self.history.redo(self)
+        self._safe_cursor()
+
+    def _safe_cursor(self):
+        """Ensure the cursor stays within the new buffer bounds after undo/redo"""
+        line, col = self.cursor
+        lines = self.buffer.get_lines()
+        line = min(line, len(lines) - 1)
+        col = min(col, len(lines[line]))
+        self.cursor = (line, col)
