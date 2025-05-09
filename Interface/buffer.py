@@ -34,7 +34,7 @@ class TextBuffer:
         return self.lines
 
     def get_text(self):
-        return ''.join(self.lines)
+        return '\n'.join(self.lines) + '\n'
 
     def set_lines(self, lines):
         self.lines = lines

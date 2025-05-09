@@ -11,8 +11,8 @@ class txtFile(File):
         if not self.full_path.exists():
             self.full_path.touch()
         with open(self.full_path, 'r') as f:
-            return f.readlines()
+            return f.read().splitlines(keepends=False) or ['']
 
     def save(self, lines: list[str]):
         with open(self.full_path, 'w') as f:
-            f.writelines(lines)
+            f.write('\n'.join(lines) + '\n')

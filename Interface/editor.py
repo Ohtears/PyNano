@@ -22,6 +22,7 @@ class Editor(SessionManager):
         self.buffer = TextBuffer()
         self.current_file = None 
         self.cursor = (0, 0)
+        self.scroll_offset = 0
 
 
     def open_file(self, filename: str):
@@ -46,10 +47,24 @@ class Editor(SessionManager):
             stdscr.addstr(0, 0, header_text, curses.A_REVERSE)
 
             # *==== TEXT AREA =====
-            for i, line in enumerate(self.buffer.get_lines()):
-                if 1 + i >= max_y - 2:  # leave space for help bar
+            visible_lines = max_y - 3  # 1 for header, 1 for footer, 1 for buffer
+            lines = self.buffer.get_lines()
+
+            # Adjust scroll_offset if cursor moves out of view
+            if self.cursor[0] < self.scroll_offset:
+                self.scroll_offset = self.cursor[0]
+            elif self.cursor[0] >= self.scroll_offset + visible_lines:
+                self.scroll_offset = self.cursor[0] - visible_lines + 1
+
+            # Render only visible lines
+            for i in range(visible_lines):
+                buffer_line_index = self.scroll_offset + i
+                if buffer_line_index >= len(lines):
                     break
-                stdscr.addstr(i + 1, 0, line.rstrip())
+                stdscr.addstr(i + 1, 0, lines[buffer_line_index].rstrip())
+
+
+
 
             # *===== FOOTER / HELP BAR =====
             help_text = " Ctrl+O: Save | Ctrl+X: Exit | Ctrl+U: Undo | Ctrl+R: Redo"
@@ -57,7 +72,10 @@ class Editor(SessionManager):
 
             # Move cursor
             line, col = self.cursor
-            stdscr.move(min(line + 1, max_y - 2), col)
+            visible_line = line - self.scroll_offset
+            if 0 <= visible_line < visible_lines:
+                stdscr.move(visible_line + 1, col)
+
 
             stdscr.refresh()
 
