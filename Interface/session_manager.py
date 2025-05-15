@@ -27,6 +27,7 @@ nano 'FILE'
 del 'FILE'
 logout
 change password
+admin 
 exit
 
     """
@@ -71,6 +72,10 @@ exit
             self.logout()
         elif cmd == 'change password' and args[0] == 'password':
             self.change_password()
+        elif cmd == 'admin':
+            from Interface.admin_panel import AdminPanel
+            panel = AdminPanel(self)
+            panel.run(self)
         elif cmd == 'exit':
             print('Exiting PyNano...')
             exit() 
