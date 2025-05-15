@@ -5,3 +5,10 @@ __pycache__/
 *.pyd
 Models/user.json
 user.json
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.aux
