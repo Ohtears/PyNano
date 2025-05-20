@@ -96,35 +96,35 @@ PyNano is a simple, modular, command-based text editor designed as part of a tea
    - The `user.json` file is located under the `User/` directory and contains user data for the application.
    - By default, it includes the following users:
      ```json
-{
-    "default_user": "guest",
-    "users": [
-        {
-            "username": "root",
-            "email": "root@example.com",
-            "password": "rootpass",
-            "role": "root"
-        },
-        {
-            "username": "admin",
-            "email": "admin@example.com",
-            "password": "adminpass",
-            "role": "admin"
-        },
-        {
-            "username": "editor",
-            "email": "editor@example.com",
-            "password": "editorpass",
-            "role": "editor"
-        },
-        {
-            "username": "guest",
-            "email": "guest@example.com",
-            "password": "guestpass",
-            "role": "guest"
-        }
-    ]
-}
+      {
+       "default_user": "guest",
+       "users": [
+           {
+               "username": "root",
+               "email": "root@example.com",
+               "password": "rootpass",
+               "role": "root"
+           },
+           {
+               "username": "admin",
+               "email": "admin@example.com",
+               "password": "adminpass",
+               "role": "admin"
+           },
+           {
+               "username": "editor",
+               "email": "editor@example.com",
+               "password": "editorpass",
+               "role": "editor"
+           },
+           {
+               "username": "guest",
+               "email": "guest@example.com",
+               "password": "guestpass",
+               "role": "guest"
+           }
+       ]
+   }
      ```
    - You can modify this file to add or remove users as needed.
 
