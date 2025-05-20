@@ -1,0 +1,35 @@
+{
+    "default_user": "guest",
+    "users": [
+        {
+            "username": "root",
+            "email": "root@example.com",
+            "password": "rootpass",
+            "role": "root"
+        },
+        {
+            "username": "admin",
+            "email": "admin@example.com",
+            "password": "adminpass",
+            "role": "admin"
+        },
+        {
+            "username": "editor",
+            "email": "editor@example.com",
+            "password": "editorpass",
+            "role": "editor"
+        },
+        {
+            "username": "guest",
+            "email": "guest@example.com",
+            "password": "guestpass",
+            "role": "guest"
+        },
+        {
+            "username": "hello",
+            "email": "hello",
+            "password": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "role": "guest"
+        }
+    ]
+}
