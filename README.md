@@ -124,7 +124,7 @@ PyNano is a simple, modular, command-based text editor designed as part of a tea
                "role": "guest"
            }
        ]
-   }
+      }
      ```
    - You can modify this file to add or remove users as needed.
 
